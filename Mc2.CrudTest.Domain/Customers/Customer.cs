@@ -14,7 +14,7 @@ namespace Mc2.CrudTest.Domain.Customers
         #endregion
 
         #region Ctor
-        public Customer(string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string email)
+        private Customer(string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string email)
         {
             CheckInveriants(firstName, lastName, dateOfBirth, phoneNumber, email);
 
@@ -25,7 +25,29 @@ namespace Mc2.CrudTest.Domain.Customers
         }
         #endregion
 
-        #region Privates
+
+        #region Methods
+        public static Customer Create(string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string email)
+        {
+            return new Customer(firstName, lastName, dateOfBirth, phoneNumber, email)
+            {
+                Id = Guid.NewGuid(),
+                CreatedDate = DateTime.Now
+            };
+        }
+
+
+        public static Customer Update(Customer customer, string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string email)
+        {
+            customer.FirstName = firstName;
+            customer.LastName = lastName;
+            customer.DateOfBirth = dateOfBirth;
+            customer.PhoneNumber = phoneNumber;
+            customer.Email = email;
+            customer.UpdatedDate = DateTime.Now;
+            return customer;
+        }
+
         private static void CheckInveriants(string firstName, string lastName, DateTime dateOfBirth, string phoneNumber, string email)
         {
             if (string.IsNullOrEmpty(firstName))
