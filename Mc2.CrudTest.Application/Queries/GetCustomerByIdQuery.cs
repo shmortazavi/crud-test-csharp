@@ -16,7 +16,7 @@ namespace Mc2.CrudTest.Application.Queries
         #endregion
 
         #region Ctor
-        public GetAllCustomerHandler(IReadUnitOfWork unitOfWork)
+        public GetCustomerByIdHandler(IReadUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
