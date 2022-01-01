@@ -35,7 +35,9 @@ namespace Mc2.CrudTest.Application.Commands
             if (dbCustomer != null)
                 throw new Exception("This email previously registered!");
 
-            var createdCustomer = await _writeUnitOfWork.CustomerWriteRepository.AddAsync(Customer.Create(customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
+            var createdCustomer = await _writeUnitOfWork.CustomerWriteRepository.AddAsync(
+                                         Customer.Create(customer.FirstName, customer.LastName, customer.DateOfBirth,
+                                                         customer.PhoneNumber, customer.Email, customer.BankAccountNumber));
             return await Task.FromResult(
                 new CustomerResponseDto
                 {
@@ -44,7 +46,8 @@ namespace Mc2.CrudTest.Application.Commands
                     LastName = createdCustomer.LastName,
                     DateOfBirth = createdCustomer.DateOfBirth,
                     PhoneNumber = createdCustomer.PhoneNumber,
-                    Email = createdCustomer.Email
+                    Email = createdCustomer.Email,
+                    BankAccountNumber = createdCustomer.BankAccountNumber
                 });
         }
         #endregion

@@ -38,7 +38,8 @@ namespace Mc2.CrudTest.Application.Queries
                 LastName = x.LastName,
                 DateOfBirth = x.DateOfBirth,
                 Email = x.Email,
-                PhoneNumber = x.PhoneNumber
+                PhoneNumber = x.PhoneNumber,
+                BankAccountNumber = x.BankAccountNumber
             }).ToList();
 
             return Task.FromResult(response);

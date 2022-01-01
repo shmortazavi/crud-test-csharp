@@ -41,7 +41,8 @@ namespace Mc2.CrudTest.Application.Queries
                     LastName = dbCustomer.LastName,
                     DateOfBirth = dbCustomer.DateOfBirth,
                     Email = dbCustomer.Email,
-                    PhoneNumber = dbCustomer.PhoneNumber
+                    PhoneNumber = dbCustomer.PhoneNumber,
+                    BankAccountNumber = dbCustomer.BankAccountNumber
                 });
         }
         #endregion

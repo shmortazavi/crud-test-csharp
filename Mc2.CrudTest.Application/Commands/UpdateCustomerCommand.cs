@@ -48,20 +48,32 @@ namespace Mc2.CrudTest.Application.Commands
             if (customer.DateOfBirth >= DateTime.Now)
                 throw new Exception("DateOfBirth is not correct!");
 
+            if (string.IsNullOrEmpty(customer.PhoneNumber))
+                throw new Exception("PhoneNumber is required!");
+
+            if (string.IsNullOrEmpty(customer.BankAccountNumber))
+                throw new Exception("BankAccountNumber is required!");
+
             //TODO:
             //if(validate(customer.mobile))
+            //if(validate(bankaccountNumber))
+            //if(validate(email))
 
-            var updateddbCustomer = _writeUnitOfWork.CustomerWriteRepository.Update(Customer.Update(dbCustomer, customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
+            var updatedbCustomer = _writeUnitOfWork.CustomerWriteRepository.Update(
+                                    Customer.Update(dbCustomer, customer.FirstName, customer.LastName,
+                                                    customer.DateOfBirth, customer.PhoneNumber, customer.Email,
+                                                    customer.BankAccountNumber));
 
             return await Task.FromResult(
                 new CustomerResponseDto
                 {
-                    Id = updateddbCustomer.Id,
-                    FirstName = updateddbCustomer.FirstName,
-                    LastName = updateddbCustomer.LastName,
-                    DateOfBirth = updateddbCustomer.DateOfBirth,
-                    PhoneNumber = updateddbCustomer.PhoneNumber,
-                    Email = updateddbCustomer.Email
+                    Id = updatedbCustomer.Id,
+                    FirstName = updatedbCustomer.FirstName,
+                    LastName = updatedbCustomer.LastName,
+                    DateOfBirth = updatedbCustomer.DateOfBirth,
+                    PhoneNumber = updatedbCustomer.PhoneNumber,
+                    Email = updatedbCustomer.Email,
+                    BankAccountNumber = updatedbCustomer.BankAccountNumber
                 });
         }
         #endregion 
