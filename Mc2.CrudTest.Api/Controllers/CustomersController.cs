@@ -9,7 +9,7 @@ namespace Mc2.CrudTest.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CustomerController : BaseApiController
+    public class CustomersController : BaseApiController
     {
         [HttpGet]
         public async Task<IActionResult> Get()
