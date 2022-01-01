@@ -3,15 +3,17 @@ using System;
 using Mc2.CrudTest.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Mc2.CrudTest.Infrastructure.Migrations
 {
     [DbContext(typeof(Mc2DbContext))]
-    partial class Mc2DbContextModelSnapshot : ModelSnapshot
+    [Migration("20220101205123_migration_2th")]
+    partial class migration_2th
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
