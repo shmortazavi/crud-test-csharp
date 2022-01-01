@@ -4,8 +4,9 @@ namespace Mc2.CrudTest.Domain.SeedWorks
 {
     public interface IWriteRepository<T> where T : Entity
     {
-        Task<T> Insert(T entity);
-        Task Update(T entity);
-        Task<bool> Delete(T entity);
+        T Add(T entity);
+        Task<T> AddAsync(T entity);
+        T Update(T entity);
+        void Delete(T entity);
     }
 }

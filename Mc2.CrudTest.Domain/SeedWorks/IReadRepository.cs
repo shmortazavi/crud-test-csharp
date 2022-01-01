@@ -10,6 +10,6 @@ namespace Mc2.CrudTest.Domain.SeedWorks
     {
         Task<T> GetById(Guid id);
         Task<List<T>> GetAll();
-        Task<IQueryable<T>> Find(Expression<Func<T, bool>> expression);
+        IQueryable<T> Find(Expression<Func<T, bool>> expression);
     }
 }
