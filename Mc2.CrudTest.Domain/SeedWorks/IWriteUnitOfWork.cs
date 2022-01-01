@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Mc2.CrudTest.Domain.Customers;
 using System.Threading.Tasks;
 
 namespace Mc2.CrudTest.Domain.SeedWorks
@@ -7,5 +7,6 @@ namespace Mc2.CrudTest.Domain.SeedWorks
     {
         Task Commit();
         void Rollback();
+        public ICustomerWriteRepository CustomerWriteRepository { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Mc2.CrudTest.Application.Dtos;
 using Mc2.CrudTest.Domain.Customers;
+using Mc2.CrudTest.Domain.SeedWorks;
 using MediatR;
 using System;
 using System.Linq;
@@ -12,24 +13,29 @@ namespace Mc2.CrudTest.Application.Commands
 
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CustomerResponseDto>
     {
-        private readonly ICustomerReadRepository _customerReadRepository;
-        private readonly ICustomerWriteRepository _customerWriteRepository;
+        #region Fields
+        private readonly IReadUnitOfWork _readUnitOfWork;
+        private readonly IWriteUnitOfWork _writeUnitOfWork;
+        #endregion
 
-        public CreateCustomerHandler(ICustomerWriteRepository customerWriteRepository, ICustomerReadRepository customerReadRepository)
+        #region Ctor
+        public CreateCustomerHandler(IReadUnitOfWork readUnitOfWork, IWriteUnitOfWork writeUnitOfWork)
         {
-            _customerWriteRepository = customerWriteRepository;
-            _customerReadRepository = customerReadRepository;
+            _readUnitOfWork = readUnitOfWork;
+            _writeUnitOfWork = writeUnitOfWork;
         }
+        #endregion
 
+        #region Handle Method
         public async Task<CustomerResponseDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = request.Customer;
-            var dbCustomer = _customerReadRepository.Find(x => x.Email.ToLower() == customer.Email.ToLower()).FirstOrDefault();
+            var dbCustomer = _readUnitOfWork.CustomerReadRepository.Find(x => x.Email.ToLower() == customer.Email.ToLower()).FirstOrDefault();
 
             if (dbCustomer != null)
                 throw new Exception("This email previously registered!");
 
-            var createdCustomer = await _customerWriteRepository.AddAsync(Customer.Create(customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
+            var createdCustomer = await _writeUnitOfWork.CustomerWriteRepository.AddAsync(Customer.Create(customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
             return await Task.FromResult(
                 new CustomerResponseDto
                 {
@@ -41,5 +47,6 @@ namespace Mc2.CrudTest.Application.Commands
                     Email = createdCustomer.Email
                 });
         }
+        #endregion
     }
 }

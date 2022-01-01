@@ -1,4 +1,4 @@
-﻿using Mc2.CrudTest.Domain.Customers;
+﻿using Mc2.CrudTest.Domain.SeedWorks;
 using MediatR;
 using System;
 using System.Threading;
@@ -10,25 +10,31 @@ namespace Mc2.CrudTest.Application.Commands
 
     public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand, bool>
     {
-        private readonly ICustomerReadRepository _customerReadRepository;
-        private readonly ICustomerWriteRepository _customerWriteRepository;
+        #region Fields
+        private readonly IReadUnitOfWork _readUnitOfWork;
+        private readonly IWriteUnitOfWork _writeUnitOfWork;
+        #endregion
 
-        public DeleteCustomerHandler(ICustomerWriteRepository customerWriteRepository, ICustomerReadRepository customerReadRepository)
+        #region Ctor
+        public DeleteCustomerHandler(IReadUnitOfWork readUnitOfWork, IWriteUnitOfWork writeUnitOfWork)
         {
-            _customerWriteRepository = customerWriteRepository;
-            _customerReadRepository = customerReadRepository;
+            _readUnitOfWork = readUnitOfWork;
+            _writeUnitOfWork = writeUnitOfWork;
         }
+        #endregion
 
+        #region Handle Method
         public Task<bool> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
-            var dbCustomer = _customerReadRepository.GetById(request.Id).Result;
+            var dbCustomer = _readUnitOfWork.CustomerReadRepository.GetById(request.Id).Result;
 
             if (dbCustomer == null)
                 throw new Exception("Customer not found!");
 
-            _customerWriteRepository.Delete(dbCustomer);
+            _writeUnitOfWork.CustomerWriteRepository.Delete(dbCustomer);
 
             return Task.FromResult(true);
         }
+        #endregion
     }
 }

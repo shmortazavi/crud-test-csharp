@@ -1,5 +1,6 @@
 ﻿using Mc2.CrudTest.Application.Dtos;
 using Mc2.CrudTest.Domain.Customers;
+using Mc2.CrudTest.Domain.SeedWorks;
 using MediatR;
 using System;
 using System.Linq;
@@ -12,24 +13,29 @@ namespace Mc2.CrudTest.Application.Commands
 
     public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, CustomerResponseDto>
     {
-        private readonly ICustomerReadRepository _customerReadRepository;
-        private readonly ICustomerWriteRepository _customerWriteRepository;
+        #region Fields
+        private readonly IReadUnitOfWork _readUnitOfWork;
+        private readonly IWriteUnitOfWork _writeUnitOfWork;
+        #endregion
 
-        public UpdateCustomerHandler(ICustomerWriteRepository customerWriteRepository, ICustomerReadRepository customerReadRepository)
+        #region Ctor
+        public UpdateCustomerHandler(IReadUnitOfWork readUnitOfWork, IWriteUnitOfWork writeUnitOfWork)
         {
-            _customerWriteRepository = customerWriteRepository;
-            _customerReadRepository = customerReadRepository;
+            _readUnitOfWork = readUnitOfWork;
+            _writeUnitOfWork = writeUnitOfWork;
         }
+        #endregion
 
+        #region Handle Method
         public async Task<CustomerResponseDto> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = request.Customer;
-            var dbCustomer = _customerReadRepository.GetById(customer.Id).Result;
+            var dbCustomer = _readUnitOfWork.CustomerReadRepository.GetById(customer.Id).Result;
 
             if (dbCustomer == null)
                 throw new Exception("customer not found!");
 
-            var existedEmail = _customerReadRepository.Find(x => x.Email == customer.Email).FirstOrDefault();
+            var existedEmail = _readUnitOfWork.CustomerReadRepository.Find(x => x.Email == customer.Email).FirstOrDefault();
             if (existedEmail != null)
                 throw new Exception("selected email is used before!");
 
@@ -45,7 +51,7 @@ namespace Mc2.CrudTest.Application.Commands
             //TODO:
             //if(validate(customer.mobile))
 
-            var updateddbCustomer = _customerWriteRepository.Update(Customer.Update(dbCustomer, customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
+            var updateddbCustomer = _writeUnitOfWork.CustomerWriteRepository.Update(Customer.Update(dbCustomer, customer.FirstName, customer.LastName, customer.DateOfBirth, customer.PhoneNumber, customer.Email));
 
             return await Task.FromResult(
                 new CustomerResponseDto
@@ -58,5 +64,6 @@ namespace Mc2.CrudTest.Application.Commands
                     Email = updateddbCustomer.Email
                 });
         }
+        #endregion 
     }
 }
