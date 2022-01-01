@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mc2.CrudTest.Application.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mc2.CrudTest.Application.Dtos
@@ -14,6 +15,8 @@ namespace Mc2.CrudTest.Application.Dtos
 
         [EmailAddress]
         public string Email { get; set; }
+
+        [BankAccountNumberValidation]
         public string BankAccountNumber { get; set; }
     }
 }
