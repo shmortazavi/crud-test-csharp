@@ -25,12 +25,19 @@ namespace Mc2.CrudTest.Application.Attributes
 
             var phoneUtil = PhoneNumberUtil.GetInstance();
 
-            var phoneNumber = phoneUtil.Parse(value.ToString(), _countryCode);
+            try
+            {
+                var phoneNumber = phoneUtil.Parse(value.ToString(), _countryCode);
 
-            if (phoneUtil.IsValidNumber(phoneNumber))
-                return ValidationResult.Success;
-            else
-                return new ValidationResult("PhoneNumber is invalid!");
+                if (phoneUtil.IsValidNumber(phoneNumber))
+                    return ValidationResult.Success;
+                else
+                    return new ValidationResult("PhoneNumber is invalid!");
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult(ex.Message);
+            }
         }
     }
 }
