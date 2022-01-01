@@ -3,7 +3,7 @@ using System;
 
 namespace Mc2.CrudTest.Domain.SeedWorks
 {
-    public interface IBaseUnitOfWork : IDisposable
+    public interface IBaseReadUnitOfWork : IDisposable
     {
         DbContext DbContext();
     }

@@ -4,8 +4,9 @@ using System;
 
 namespace Mc2.CrudTest.Domain.SeedWorks
 {
-    public interface IReadUnitOfWork : IBaseUnitOfWork
+    public interface IReadUnitOfWork : IDisposable
     {
         public ICustomerReadRepository CustomerReadRepository { get; }
+        DbContext DbContext();
     }
 }
