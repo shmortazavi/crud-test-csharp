@@ -10,7 +10,8 @@ namespace Mc2.CrudTest.Application.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-
+   
+        [PhoneNumberValidation(countryCode:"IR")]
         public string PhoneNumber { get; set; }
 
         [EmailAddress]

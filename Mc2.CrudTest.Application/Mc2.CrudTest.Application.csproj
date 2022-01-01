@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="IbanNet" Version="5.4.0" />
+		<PackageReference Include="libphonenumber-csharp" Version="8.12.38" />
 		<PackageReference Include="MediatR" Version="9.0.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
 	</ItemGroup>
