@@ -1,5 +1,4 @@
 ﻿using Mc2.CrudTest.Domain.SeedWorks;
-using Mc2.CrudTest.Infrastructure.SeedWorks;
 using Mc2.CrudTest.Infrastructure.UnitOfWorks;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +11,10 @@ namespace Mc2.CrudTest.Application
         {
             services.AddScoped<IReadUnitOfWork, ReadUnitOfWorks>();
             services.AddScoped<IWriteUnitOfWork, WriteUnitOfWork>();
-            services.AddMediatR(typeof(ApplicationLayerMediatREntryPoint).Assembly);
+            services.AddMediatR(typeof(ServiceCollectionExtension).Assembly);
 
             return services;
         }
+
     }
 }
