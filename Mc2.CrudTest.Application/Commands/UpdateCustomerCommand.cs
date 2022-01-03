@@ -54,15 +54,12 @@ namespace Mc2.CrudTest.Application.Commands
             if (string.IsNullOrEmpty(customer.BankAccountNumber))
                 throw new Exception("BankAccountNumber is required!");
 
-            //TODO:
-            //if(validate(customer.mobile))
-            //if(validate(bankaccountNumber))
-            //if(validate(email))
-
             var updatedbCustomer = _writeUnitOfWork.CustomerWriteRepository.Update(
                                     Customer.Update(dbCustomer, customer.FirstName, customer.LastName,
                                                     customer.DateOfBirth, customer.PhoneNumber, customer.Email,
                                                     customer.BankAccountNumber));
+
+            await _writeUnitOfWork.Commit();
 
             return await Task.FromResult(
                 new CustomerResponseDto

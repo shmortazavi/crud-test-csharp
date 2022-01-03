@@ -32,6 +32,7 @@ namespace Mc2.CrudTest.Application.Commands
                 throw new Exception("Customer not found!");
 
             _writeUnitOfWork.CustomerWriteRepository.Delete(dbCustomer);
+            _writeUnitOfWork.Commit();
 
             return Task.FromResult(true);
         }

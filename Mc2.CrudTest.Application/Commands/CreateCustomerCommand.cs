@@ -37,7 +37,9 @@ namespace Mc2.CrudTest.Application.Commands
 
             var createdCustomer = await _writeUnitOfWork.CustomerWriteRepository.AddAsync(
                                          Customer.Create(customer.FirstName, customer.LastName, customer.DateOfBirth,
-                                                         customer.PhoneNumber, customer.Email, customer.BankAccountNumber));
+                                                        customer.PhoneNumber, customer.Email, customer.BankAccountNumber));
+            await _writeUnitOfWork.Commit();
+
             return await Task.FromResult(
                 new CustomerResponseDto
                 {
