@@ -9,8 +9,8 @@ namespace Mc2.CrudTest.Infrastructure.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "BankAccountNumber",
                 table: "Customers",
-                type: "character varying(20)",
-                maxLength: 20,
+                type: "character varying(50)",
+                maxLength: 50,
                 nullable: false,
                 defaultValue: "");
         }

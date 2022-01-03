@@ -15,7 +15,7 @@ namespace Mc2.CrudTest.Infrastructure.Configurations
             builder.Property(p => p.PhoneNumber).HasMaxLength(20).IsRequired();
             builder.Property(p => p.Email).HasMaxLength(100).IsRequired();
             builder.Property(p => p.DateOfBirth).IsRequired();
-            builder.Property(p => p.BankAccountNumber).HasMaxLength(20).IsRequired();
+            builder.Property(p => p.BankAccountNumber).HasMaxLength(50).IsRequired();
         }
     }
 }

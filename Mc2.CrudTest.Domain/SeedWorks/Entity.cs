@@ -6,6 +6,6 @@ namespace Mc2.CrudTest.Domain.SeedWorks
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 }
