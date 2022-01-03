@@ -10,7 +10,7 @@ namespace Mc2.CrudTest.Infrastructure.UnitOfWorks
     public class WriteUnitOfWork : IWriteUnitOfWork
     {
         private readonly DbContext _context;
-        protected WriteUnitOfWork(DbContext context)
+        public WriteUnitOfWork(DbContext context)
         {
             _context = context;
         }

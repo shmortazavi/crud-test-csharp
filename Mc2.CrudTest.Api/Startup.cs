@@ -1,10 +1,7 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Mc2.CrudTest.Application;
-using Mc2.CrudTest.Domain.Customers;
-using Mc2.CrudTest.Domain.SeedWorks;
 using Mc2.CrudTest.Infrastructure;
-using Mc2.CrudTest.Infrastructure.Repositories.Customers;
-using Mc2.CrudTest.Infrastructure.UnitOfWorks;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,13 +25,15 @@ namespace Mc2.CrudTest.Api
 
         public IConfiguration Configuration { get; }
 
+        public ILifetimeScope AutofacContainer { get; private set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-     services.AddCors(options => options
-                    .AddPolicy(Policy, p => p.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()));
+            services.AddCors(options => options
+                           .AddPolicy(Policy, p => p.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -47,12 +46,14 @@ namespace Mc2.CrudTest.Api
                 m => m.MigrationsAssembly(DataAccessNameSpace))
                       .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-
-            services.AddStartupConfiguration();
+            services.AddStartupConfiguration(Configuration);
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new MediatorModule());
+        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Mc2DbContext context)
         {
             if (env.IsDevelopment())
@@ -65,6 +66,8 @@ namespace Mc2.CrudTest.Api
             context.Database.Migrate();
 
             app.UseCors(Policy);
+
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             app.UseHttpsRedirection();
 
